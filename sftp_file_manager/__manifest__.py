@@ -1,6 +1,6 @@
 {
     'name': 'SFTP File Manager',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'summary': 'WinSCP/FileZilla-like SFTP / FTP / FTPS client: manage connections, browse, upload and download files',
     'category': 'Tools',
     'description': """
@@ -28,6 +28,7 @@ Setup
 3. SFTP File Manager > File Browser: pick a server and work with files.
 """,
     'author': 'Ahmad Heriyanto',
+    'images': ['static/description/banner.png'],
     'website': 'https://www.aplikasierp.online',
     'license': 'LGPL-3',
     'depends': ['base', 'web'],
