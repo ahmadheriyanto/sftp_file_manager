@@ -28,6 +28,7 @@ Setup
 3. SFTP File Manager > File Browser: pick a server and work with files.
 """,
     'author': 'Ahmad Heriyanto',
+    'website': 'https://www.aplikasierp.online',
     'license': 'LGPL-3',
     'depends': ['base', 'web'],
     'external_dependencies': {'python': ['paramiko']},
