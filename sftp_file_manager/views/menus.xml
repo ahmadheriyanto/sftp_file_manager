@@ -1,0 +1,8 @@
+<odoo>
+    <menuitem id="menu_sftp_root" name="SFTP File Manager" web_icon="sftp_file_manager,static/description/icon.png"
+              groups="group_sftp_user" sequence="90"/>
+    <menuitem id="menu_sftp_browser" name="File Browser" parent="menu_sftp_root"
+              action="action_sftp_browser" sequence="1"/>
+    <menuitem id="menu_sftp_connections" name="Connections" parent="menu_sftp_root"
+              action="action_sftp_connection" sequence="2" groups="group_sftp_manager"/>
+</odoo>

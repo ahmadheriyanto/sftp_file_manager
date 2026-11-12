@@ -1,0 +1,5 @@
+.o_sftp_browser {
+    .o_sftp_row { cursor: pointer; user-select: none; }
+    .o_sftp_row:hover { background: var(--table-hover-bg, rgba(0,0,0,.05)); }
+    .o_sftp_drop { border: 2px dashed var(--primary); }
+}

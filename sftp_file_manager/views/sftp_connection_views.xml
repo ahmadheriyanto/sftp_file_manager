@@ -1,0 +1,62 @@
+<odoo>
+    <record id="view_sftp_connection_form" model="ir.ui.view">
+        <field name="name">sftp.connection.form</field>
+        <field name="model">sftp.connection</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_test_connection" type="object" string="Test Connection"/>
+                    <button name="action_open_browser" type="object" string="Open Browser" class="btn-primary"
+                            invisible="not id"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="protocol"/>
+                            <field name="host"/>
+                            <field name="port"/>
+                            <field name="username" invisible="anonymous" required="not anonymous"/>
+                            <field name="start_path"/>
+                            <field name="timeout"/>
+                        </group>
+                        <group>
+                            <field name="auth_type" invisible="protocol != 'sftp'"/>
+                            <field name="password" password="True" invisible="anonymous or (protocol == 'sftp' and auth_type != 'password')"/>
+                            <field name="encryption" invisible="protocol != 'ftp'"/>
+                            <field name="verify_tls" invisible="protocol != 'ftp' or encryption != 'tls'"/>
+                            <field name="anonymous" invisible="protocol != 'ftp'"/>
+                            <field name="private_key" invisible="protocol != 'sftp' or auth_type != 'key'"/>
+                            <field name="key_passphrase" password="True" invisible="protocol != 'sftp' or auth_type != 'key'"/>
+                            <field name="host_fingerprint" invisible="protocol != 'sftp'"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_sftp_connection_list" model="ir.ui.view">
+        <field name="name">sftp.connection.list</field>
+        <field name="model">sftp.connection</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="protocol"/>
+                <field name="host"/>
+                <field name="port"/>
+                <field name="username"/>
+                <field name="auth_type"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_sftp_connection" model="ir.actions.act_window">
+        <field name="name">Connections</field>
+        <field name="res_model">sftp.connection</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_sftp_browser" model="ir.actions.client">
+        <field name="name">File Browser</field>
+        <field name="tag">sftp_file_manager.browser</field>
+    </record>
+</odoo>

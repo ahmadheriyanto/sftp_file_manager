@@ -1,0 +1,59 @@
+<section class="oe_container" style="padding:24px 0">
+  <div class="oe_row">
+    <h1 class="text-center">SFTP File Manager</h1>
+    <h3 class="text-center text-muted">A WinSCP / FileZilla-style SFTP and FTP client inside Odoo</h3>
+    <p class="text-center">
+      Define remote servers once, then browse folders and move files between your computer
+      and the server &mdash; without leaving the browser.
+    </p>
+  </div>
+</section>
+
+<section class="oe_container" style="padding:16px 0">
+  <div class="oe_row">
+    <h2>Features</h2>
+    <ul>
+      <li><b>SFTP and FTP</b> in one screen, chosen with a "File protocol" selector like WinSCP.</li>
+      <li><b>SFTP login</b> with password or private key (RSA / Ed25519 / ECDSA, optional passphrase).</li>
+      <li><b>FTP login</b> with password or anonymous, plain or with <b>TLS/SSL explicit encryption</b>.</li>
+      <li><b>File browser:</b> breadcrumb navigation, folders first, size / date / permissions columns.</li>
+      <li><b>Download</b> files (streamed, so large files are fine) and <b>upload</b> with a button or drag &amp; drop.</li>
+      <li><b>New folder, rename and delete</b> from the same screen.</li>
+      <li><b>Test Connection</b> button on every server record.</li>
+      <li><b>SFTP host-key pinning</b> (trust on first use): a changed server key is refused.</li>
+      <li><b>Two access groups:</b> Users browse and transfer; Managers also edit connections and see credentials.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="oe_container" style="padding:16px 0">
+  <div class="oe_row">
+    <h2>Installation</h2>
+    <ol>
+      <li>Install the Python library in the virtualenv that runs Odoo: <code>pip install paramiko</code></li>
+      <li>Restart Odoo, update the Apps list and install <b>SFTP File Manager</b>.</li>
+      <li>Open <b>SFTP File Manager &gt; Connections</b>, create a server and press <b>Test Connection</b>.</li>
+      <li>Open <b>SFTP File Manager &gt; File Browser</b> and pick the server.</li>
+    </ol>
+    <p>FTP uses Python's built-in <code>ftplib</code>; nothing extra is needed for it.</p>
+  </div>
+</section>
+
+<section class="oe_container" style="padding:16px 0">
+  <div class="oe_row">
+    <h2>Good to know</h2>
+    <ul>
+      <li>All transfers pass through the Odoo server, so the Odoo server (not the user's PC) must be able to reach the remote host.</li>
+      <li>Plain FTP is unencrypted. Prefer SFTP, or FTP with TLS.</li>
+      <li>Passwords and private keys are stored as plain text in the database and are visible only to the Manager group.</li>
+      <li>Downloading whole folders and recursive operations are not supported.</li>
+    </ul>
+    <p>A full PDF user guide is included in the module's <code>docs</code> folder.</p>
+  </div>
+</section>
+
+<section class="oe_container" style="padding:16px 0">
+  <div class="oe_row">
+    <p class="text-muted">License: LGPL-3. Author: Ahmad Heriyanto.</p>
+  </div>
+</section>

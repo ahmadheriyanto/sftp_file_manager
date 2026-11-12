@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="sftp_file_manager.PromptDialog">
+        <Dialog title="props.title" size="'md'">
+            <label t-if="props.label" class="form-label"><t t-esc="props.label"/></label>
+            <input type="text" class="form-control" t-ref="input" t-model="state.value" t-on-keydown="onKeydown"/>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-on-click="onConfirm">OK</button>
+                <button class="btn btn-secondary" t-on-click="props.close">Cancel</button>
+            </t>
+        </Dialog>
+    </t>
+
+    <t t-name="sftp_file_manager.Browser">
+        <div class="o_sftp_browser d-flex flex-column h-100 p-3 overflow-auto"
+             t-att-class="{'o_sftp_drop': state.drag}"
+             t-on-dragover="onDragOver" t-on-dragleave="onDragLeave" t-on-drop="onDrop">
+            <div class="d-flex gap-2 align-items-center mb-2 flex-wrap">
+                <select class="form-select w-auto" t-on-change="onSelectConnection">
+                    <option value="">-- Select server --</option>
+                    <t t-foreach="state.connections" t-as="c" t-key="c.id">
+                        <option t-att-value="c.id" t-att-selected="c.id === state.connectionId">
+                            <t t-esc="c.name"/> [<t t-esc="c.protocol"/>] (<t t-esc="c.username"/>@<t t-esc="c.host"/>)
+                        </option>
+                    </t>
+                </select>
+                <t t-if="state.connectionId">
+                    <button class="btn btn-secondary" t-on-click="up" title="Parent folder"><i class="fa fa-level-up"/> Up</button>
+                    <button class="btn btn-secondary" t-on-click="refresh"><i class="fa fa-refresh"/> Refresh</button>
+                    <button class="btn btn-primary" t-on-click="onUploadClick"><i class="fa fa-upload"/> Upload</button>
+                    <button class="btn btn-secondary" t-on-click="mkdir"><i class="fa fa-folder-o"/> New Folder</button>
+                    <input type="file" multiple="multiple" class="d-none" t-ref="fileInput" t-on-change="onFilesPicked"/>
+                </t>
+                <span t-if="state.loading" class="text-muted"><i class="fa fa-spinner fa-spin"/> Working…</span>
+            </div>
+            <t t-if="state.connectionId">
+                <nav class="mb-2">
+                    <t t-foreach="crumbs" t-as="c" t-key="c_index">
+                        <a href="#" t-on-click.prevent="() => this.load(c.path)"><t t-esc="c.label"/></a>
+                        <span t-if="!c_last and c.path !== '/'"> / </span>
+                    </t>
+                </nav>
+                <table class="table table-sm table-hover">
+                    <thead><tr><th>Name</th><th class="text-end">Size</th><th>Modified</th><th>Permissions</th><th/></tr></thead>
+                    <tbody>
+                        <tr t-foreach="state.entries" t-as="e" t-key="e.name" class="o_sftp_row" t-on-dblclick="() => this.open(e)">
+                            <td>
+                                <i t-attf-class="fa #{e.is_dir ? 'fa-folder text-warning' : 'fa-file-o'} me-2"/>
+                                <t t-esc="e.name"/>
+                            </td>
+                            <td class="text-end"><t t-if="!e.is_dir" t-esc="fmtSize(e.size)"/></td>
+                            <td><t t-esc="fmtDate(e.mtime)"/></td>
+                            <td class="font-monospace"><t t-esc="e.mode"/></td>
+                            <td class="text-end text-nowrap">
+                                <button t-if="e.is_dir" class="btn btn-link p-0 me-2" t-on-click="() => this.open(e)" title="Open"><i class="fa fa-folder-open"/></button>
+                                <button t-else="" class="btn btn-link p-0 me-2" t-on-click="() => this.download(e)" title="Download"><i class="fa fa-download"/></button>
+                                <button class="btn btn-link p-0 me-2" t-on-click="() => this.rename(e)" title="Rename"><i class="fa fa-pencil"/></button>
+                                <button class="btn btn-link p-0 text-danger" t-on-click="() => this.remove(e)" title="Delete"><i class="fa fa-trash"/></button>
+                            </td>
+                        </tr>
+                        <tr t-if="!state.entries.length"><td colspan="5" class="text-muted">Empty folder</td></tr>
+                    </tbody>
+                </table>
+                <div class="text-muted small">Double-click to open a folder or download a file. Drag files here to upload.</div>
+            </t>
+            <div t-else="" class="text-muted">Select a server (define servers under SFTP Files ▸ Connections).</div>
+        </div>
+    </t>
+</templates>
